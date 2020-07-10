@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Header from "./Header"
 import BeerList from './BeerList'
-import { connect } from "redux";
+import { connect } from "react-redux";
 
 class BreweryControl extends Component {
   constructor(props) {
@@ -32,24 +32,14 @@ class BreweryControl extends Component {
 
 
   handleSubmit = (newKeg) => {
-    const newMasterKegList = this.props.beerList.concat(newKeg);
+    this.props.dispatch({ type: "ADD_KEG", keg: newKeg })
     this.setState({
-      masterKegList: newMasterKegList,
       formModalVisible: false
     });
   };
 
-  handleEdit = (editedKeg, id) => {
-    this.setState(state => {
-      const masterKegList = state.masterKegList.map(beer => {
-        if (id === beer.id) {
-          return { ...editedKeg }
-        } else {
-          return beer
-        }
-      });
-      return { masterKegList }
-    })
+  handleEdit = (keg, id) => {
+    this.props.dispatch({ type: "EDIT_KEG", keg, id })
   }
 
 
@@ -64,20 +54,10 @@ class BreweryControl extends Component {
     });
   };
   servePint = id => {
-    this.setState(state => {
-      const masterKegList = state.masterKegList.map(beer => {
-        if (beer.id === id && beer.pints > 0) {
-          return { ...beer, pints: beer.pints - 1 }
-        } else {
-          return beer
-        }
-      })
-      return { masterKegList }
-    })
+    this.props.dispatch({ type: "SERVE", id })
   }
   delete = id => {
-    const masterKegList = this.props.beerList.filter(shirt => shirt.id !== id)
-    this.setState({ masterKegList })
+    this.props.dispatch({ type: "DELETE_KEG", id })
   }
   render() {
     return (

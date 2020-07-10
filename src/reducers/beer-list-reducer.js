@@ -10,6 +10,12 @@ export default (state = [], action) => {
       const editIndex = editState.findIndex(keg => keg.id === id)
       editState[editIndex] = keg;
       return editState
+
+    case "SERVE":
+      const serveState = [...state]
+      const serveIndex = serveState.findIndex(keg => keg.id === id)
+      serveState[serveIndex].pints--;
+      return serveState
     case 'DELETE_KEG':
       const newState = [...state];
       const deleteIndex = newState.findIndex(keg => keg.id === id)
