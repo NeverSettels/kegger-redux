@@ -57,6 +57,8 @@ _No known bugs at this time._
 * jQuery
 * React
 * antd
+* Redux
+* react-redux
 
 
 
