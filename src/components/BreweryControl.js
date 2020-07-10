@@ -5,23 +5,17 @@ import { connect } from "react-redux";
 import * as a from '../actions'
 
 class BreweryControl extends Component {
+
   showModal = () => this.props.dispatch(a.toggleCreate())
-
   showDetailModal = () => this.props.dispatch(a.toggleDetails())
-
   handleSubmit = (newKeg) => {
     this.props.dispatch(a.addKeg(newKeg))
     this.props.dispatch(a.toggleCreate())
   };
-
   handleEdit = (keg, id) => this.props.dispatch(a.editKeg(keg, id))
-
   handleCancel = () => this.props.dispatch(a.toggleCreate())
-
   handleDetailClose = () => this.props.dispatch(a.toggleDetails())
-
   servePint = id => this.props.dispatch(a.serve(id))
-
   delete = id => this.props.dispatch(a.deleteKeg(id))
 
   render() {
