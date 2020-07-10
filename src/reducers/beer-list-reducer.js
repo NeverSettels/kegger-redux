@@ -10,7 +10,7 @@ export default (state = [], action) => {
       const editIndex = editState.findIndex(keg => keg.id === id)
       editState[editIndex] = keg;
       return editState
-    case 'constE_KEG':
+    case 'DELETE_KEG':
       const newState = [...state];
       const deleteIndex = newState.findIndex(keg => keg.id === id)
       newState.splice(deleteIndex, 1)

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import Header from "./Header"
 import BeerList from './BeerList'
+import { connect } from "redux";
 
-export default class BreweryControl extends Component {
+class BreweryControl extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +32,7 @@ export default class BreweryControl extends Component {
 
 
   handleSubmit = (newKeg) => {
-    const newMasterKegList = this.state.masterKegList.concat(newKeg);
+    const newMasterKegList = this.props.beerList.concat(newKeg);
     this.setState({
       masterKegList: newMasterKegList,
       formModalVisible: false
@@ -75,7 +76,7 @@ export default class BreweryControl extends Component {
     })
   }
   delete = id => {
-    const masterKegList = this.state.masterKegList.filter(shirt => shirt.id !== id)
+    const masterKegList = this.props.beerList.filter(shirt => shirt.id !== id)
     this.setState({ masterKegList })
   }
   render() {
@@ -83,9 +84,16 @@ export default class BreweryControl extends Component {
       <>
         <Header handleCancel={this.handleCancel} handleOk={this.handleSubmit} showModal={this.showModal} visible={this.state.formModalVisible} />
         <div className="main-body">
-          <BeerList handleDelete={this.delete} servePint={this.servePint} beerList={this.state.masterKegList} visible={this.state.detailsVisible} handleEdit={this.handleEdit} handleCancel={this.handleDetailClose} showModal={this.showDetailModal} />
+          <BeerList handleDelete={this.delete} servePint={this.servePint} beerList={this.props.beerList} visible={this.state.detailsVisible} handleEdit={this.handleEdit} handleCancel={this.handleDetailClose} showModal={this.showDetailModal} />
         </div>
       </>
     )
   }
 }
+const mapStateToProps = state => {
+  return {
+    beerList: state.beerList,
+  }
+}
+BreweryControl = connect(mapStateToProps)(BreweryControl)
+export default BreweryControl
