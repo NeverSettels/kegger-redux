@@ -20,7 +20,13 @@ export default (state = [], action) => {
       const newState = [...state];
       const deleteIndex = newState.findIndex(keg => keg.id === id)
       newState.splice(deleteIndex, 1)
-      return newState;
+      console.log(newState)
+      if (newState.length > 0) {
+        return newState;
+      } else {
+        return []
+      }
+
     default:
       return state;
   }
