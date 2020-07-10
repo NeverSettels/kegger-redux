@@ -4,36 +4,35 @@ import BeerList from './BeerList'
 import { connect } from "react-redux";
 import * as a from '../actions'
 
-class BreweryControl extends Component {
-  showModal = () => this.props.dispatch(a.toggleCreate())
+function BreweryControl(props) {
+  const showModal = () => this.props.dispatch(a.toggleCreate())
 
-  showDetailModal = () => this.props.dispatch(a.toggleDetails())
+  const showDetailModal = () => this.props.dispatch(a.toggleDetails())
 
-  handleSubmit = (newKeg) => {
+  const handleSubmit = (newKeg) => {
     this.props.dispatch(a.addKeg(newKeg))
     this.props.dispatch(a.toggleCreate())
   };
 
-  handleEdit = (keg, id) => this.props.dispatch(a.editKeg(keg, id))
+  const handleEdit = (keg, id) => this.props.dispatch(a.editKeg(keg, id))
 
-  handleCancel = () => this.props.dispatch(a.toggleCreate())
+  const handleCancel = () => this.props.dispatch(a.toggleCreate())
 
-  handleDetailClose = () => this.props.dispatch(a.toggleDetails())
+  const handleDetailClose = () => this.props.dispatch(a.toggleDetails())
 
-  servePint = id => this.props.dispatch(a.serve(id))
+  const servePint = id => this.props.dispatch(a.serve(id))
 
-  delete = id => this.props.dispatch(a.deleteKeg(id))
+  const deleteKeg = id => this.props.dispatch(a.deleteKeg(id))
 
-  render() {
-    return (
-      <>
-        <Header handleCancel={this.handleCancel} handleOk={this.handleSubmit} showModal={this.showModal} visible={this.props.formCreate} />
-        <div className="main-body">
-          <BeerList handleDelete={this.delete} servePint={this.servePint} beerList={this.props.beerList} visible={this.props.details} handleEdit={this.handleEdit} handleCancel={this.handleDetailClose} showModal={this.showDetailModal} />
-        </div>
-      </>
-    )
-  }
+  return (
+    <>
+      <Header handleCancel={handleCancel} handleOk={handleSubmit} showModal={showModal} visible={this.props.formCreate} />
+      <div className="main-body">
+        <BeerList handleDelete={deleteKeg} servePint={servePint} beerList={this.props.beerList} visible={this.props.details} handleEdit={handleEdit} handleCancel={handleDetailClose} showModal={showDetailModal} />
+      </div>
+    </>
+  )
+
 }
 const mapStateToProps = state => {
   return {
