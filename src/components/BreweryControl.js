@@ -4,30 +4,13 @@ import BeerList from './BeerList'
 import { connect } from "react-redux";
 
 class BreweryControl extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formModalVisible: false,
-      detailsVisible: false,
-      masterKegList: [],
-    };
-  }
-
   showModal = () => {
     this.props.dispatch({ type: "TOGGLE_CREATE" })
   };
 
   showDetailModal = () => {
-    this.setState({
-      detailsVisible: true,
-    });
+    this.props.dispatch({ type: 'TOGGLE_DETAILS' })
   };
-  showEditModal = () => {
-    this.setState({
-      editsVisible: true,
-    });
-  };
-
 
   handleSubmit = (newKeg) => {
     this.props.dispatch({ type: "ADD_KEG", keg: newKeg })
@@ -43,9 +26,7 @@ class BreweryControl extends Component {
     this.props.dispatch({ type: "TOGGLE_CREATE" })
   };
   handleDetailClose = e => {
-    this.setState({
-      detailsVisible: false,
-    });
+    this.props.dispatch({ type: 'TOGGLE_DETAILS' })
   };
   servePint = id => {
     this.props.dispatch({ type: "SERVE", id })
@@ -58,7 +39,7 @@ class BreweryControl extends Component {
       <>
         <Header handleCancel={this.handleCancel} handleOk={this.handleSubmit} showModal={this.showModal} visible={this.props.formCreate} />
         <div className="main-body">
-          <BeerList handleDelete={this.delete} servePint={this.servePint} beerList={this.props.beerList} visible={this.state.detailsVisible} handleEdit={this.handleEdit} handleCancel={this.handleDetailClose} showModal={this.showDetailModal} />
+          <BeerList handleDelete={this.delete} servePint={this.servePint} beerList={this.props.beerList} visible={this.props.details} handleEdit={this.handleEdit} handleCancel={this.handleDetailClose} showModal={this.showDetailModal} />
         </div>
       </>
     )
@@ -67,7 +48,8 @@ class BreweryControl extends Component {
 const mapStateToProps = state => {
   return {
     beerList: state.beerList,
-    formCreate: state.formCreate
+    formCreate: state.formCreate,
+    details: state.details
   }
 }
 BreweryControl = connect(mapStateToProps)(BreweryControl)
