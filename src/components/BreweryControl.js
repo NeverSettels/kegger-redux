@@ -14,9 +14,7 @@ class BreweryControl extends Component {
   }
 
   showModal = () => {
-    this.setState({
-      formModalVisible: true,
-    });
+    this.props.dispatch({ type: "TOGGLE_CREATE" })
   };
 
   showDetailModal = () => {
@@ -33,9 +31,7 @@ class BreweryControl extends Component {
 
   handleSubmit = (newKeg) => {
     this.props.dispatch({ type: "ADD_KEG", keg: newKeg })
-    this.setState({
-      formModalVisible: false
-    });
+    this.props.dispatch({ type: "TOGGLE_CREATE" })
   };
 
   handleEdit = (keg, id) => {
@@ -44,9 +40,7 @@ class BreweryControl extends Component {
 
 
   handleCancel = e => {
-    this.setState({
-      formModalVisible: false,
-    });
+    this.props.dispatch({ type: "TOGGLE_CREATE" })
   };
   handleDetailClose = e => {
     this.setState({
@@ -62,7 +56,7 @@ class BreweryControl extends Component {
   render() {
     return (
       <>
-        <Header handleCancel={this.handleCancel} handleOk={this.handleSubmit} showModal={this.showModal} visible={this.state.formModalVisible} />
+        <Header handleCancel={this.handleCancel} handleOk={this.handleSubmit} showModal={this.showModal} visible={this.props.formCreate} />
         <div className="main-body">
           <BeerList handleDelete={this.delete} servePint={this.servePint} beerList={this.props.beerList} visible={this.state.detailsVisible} handleEdit={this.handleEdit} handleCancel={this.handleDetailClose} showModal={this.showDetailModal} />
         </div>
@@ -73,6 +67,7 @@ class BreweryControl extends Component {
 const mapStateToProps = state => {
   return {
     beerList: state.beerList,
+    formCreate: state.formCreate
   }
 }
 BreweryControl = connect(mapStateToProps)(BreweryControl)
